@@ -1,19 +1,20 @@
 #include <cstdlib>
 #include <iostream>
 #include "nbody/core.hpp"
+#include "nbody/solvers.hpp"
 #include "nbody/state.hpp"
 #include "nbody/generators.hpp"
 #include "raylib.h"
 
-#define DT 0.1
-#define FPS 60
+#define DT 0.01
+#define FPS 100
 
 int main() {
     std::cout << "N-body simulation\n";
 
-    EulerIntegrator integrator;
-    NaiveSolver solver(1.0, 1.0);
-    UniformMassGalaxy2D generator(500, 500, 10000, 500, 500, 1, 250);
+    LeapfrogIntegrator integrator;
+    BarnesHutSolver solver(1.0, 1.0);
+    UniformMassGalaxy2D generator(1000, 500, 10000, 500, 500, 1, 250);
     State initial_state = generator.getRandomState();
     /*
     {
