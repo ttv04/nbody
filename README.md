@@ -5,9 +5,16 @@ A C++ N-body gravity sandbox. The core library can swap force solvers and time i
 ## Features
 
 - Direct (naive) pairwise gravity with softening
+- Barnes–Hut orthtree gravity (quadtree in 2D, octree in 3D)
 - Euler, Euler–Cromer, and leapfrog (KDK) integrators
 - Uniform 2D disk / ring initial conditions
 - Interactive window with timestep and simulated time
+
+## Force solvers
+
+**Naive** sums Newton's law between every pair of bodies. Softening is added to the distance so close encounters stay finite. Cost is \(O(N^2)\).
+
+**Barnes–Hut** (`BarnesHutSolver`) rebuilds an indexed orthtree each force evaluation. The root is an axis-aligned cube that covers every body. Internal nodes have \(2^d\) children (4 in 2D, 8 in 3D). A leaf stores at most 12 particles; inserting more splits it.
 
 ## Layout
 
