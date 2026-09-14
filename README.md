@@ -16,6 +16,8 @@ A C++ N-body gravity sandbox. The core library can swap force solvers and time i
 
 **Barnes–Hut** (`BarnesHutSolver`) rebuilds an indexed orthtree each force evaluation. The root is an axis-aligned cube that covers every body. Internal nodes have \(2^d\) children (4 in 2D, 8 in 3D). A leaf stores at most 12 particles; inserting more splits it.
 
+It's ok we don't need to fix it
+
 ## Layout
 
 ```text
