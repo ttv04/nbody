@@ -42,80 +42,40 @@ public:
     ) const;
 };
 
-class BHBound {
-    friend class BHInternalNode;
-    friend class BHIndexedOrthoTree;
-public:
-    BHBound() = default;
-    BHBound(std::vector<std::vector<double>> bounds);
-
-    double l(size_t dimension) const;
-    double r(size_t dimension) const;
-    double width() const;
-private:
-    std::vector<std::vector<double>> bounds;
-    double width_ = 0.0;
-};
-
 class BHNode {
     friend class BHIndexedOrthoTree;
 public:
-    virtual bool is_leaf() const = 0;
-    virtual void accelerationSum(
+    BHNode(const State& state, std::vector<double> lo, std::vector<double> hi);
+    BHNode(const BHNode&) = delete;
+    BHNode& operator=(const BHNode&) = delete;
+    ~BHNode();
+
+    void accelerationSum(
         size_t particle_index,
         double theta,
         double softening,
         double grav,
         AccelerationField& acceleration
-    ) = 0;
-    virtual ~BHNode() = default;
-protected:
-    BHNode(const BHBound& bound)
-        : mass_(0.0),
-          bound_(bound) {}
-
-    std::vector<double> center_;
+    );
+private:
+    const State* state_;
+    bool is_leaf_;
     double mass_;
-    BHBound bound_;
-};
-
-class BHLeafNode : public BHNode {
-    friend class BHIndexedOrthoTree;
-public:
-    BHLeafNode(const State& state, const BHBound& bound);
-    bool is_leaf() const;
-    void accelerationSum(
-        size_t particle_index,
-        double theta,
-        double softening,
-        double grav,
-        AccelerationField& acceleration
-    );
-private:
-    std::vector<size_t> particle_indexes_;
-    const State& state_;
-};
-
-class BHInternalNode : public BHNode {
-    friend class BHIndexedOrthoTree;
-public:
-    BHInternalNode(const State& state, const BHBound& bound);
-    bool is_leaf() const;
-    void accelerationSum(
-        size_t particle_index,
-        double theta,
-        double softening,
-        double grav,
-        AccelerationField& acceleration
-    );
-private:
-    std::vector<std::unique_ptr<BHNode>> children_;
-    const State& state_;
+    double width_;
+    std::vector<double> lo_;
+    std::vector<double> hi_;
+    std::vector<double> center_;
+    std::vector<size_t> particles_;
+    std::vector<BHNode*> children_;
 };
 
 class BHIndexedOrthoTree {
 public:
     BHIndexedOrthoTree(const State& state, size_t max_particles_per_leaf);
+    BHIndexedOrthoTree(const BHIndexedOrthoTree&) = delete;
+    BHIndexedOrthoTree& operator=(const BHIndexedOrthoTree&) = delete;
+    ~BHIndexedOrthoTree();
+
     void insert(size_t index);
     void calculateAcceleration(
         size_t particle_index,
@@ -126,12 +86,13 @@ public:
     );
     void print() const;
 private:
-    void insertHelper(size_t index, std::unique_ptr<BHNode>& node);
+    void insertHelper(size_t index, BHNode* node);
     void printHelper(const BHNode* node, int depth) const;
-    void calculateCenterOfMass(std::unique_ptr<BHNode>& node);
+    void calculateCenterOfMass(BHNode* node);
+
     const State& state_;
     size_t max_particles_per_leaf_;
-    std::unique_ptr<BHNode> root_;
+    BHNode* root_;
 };
 
 class BarnesHutSolver : public Solver {
