@@ -15,9 +15,9 @@ int main() {
 
     LeapfrogIntegrator integrator;
     BarnesHutSolver solver(1.0, 1.0);
-    UniformMassGalaxy2D generator(1000, 1250, 10000, 500, 500, 1, 500);
+    UniformMassGalaxy2D generator(1000, 500, 10000, 500, 500, 1, 250);
     State initial_state = generator.getRandomState();
-
+/*
     Body sun{
         {500, 500},
         {0.0, 0.0},
@@ -26,7 +26,7 @@ int main() {
     };
 
     initial_state.bodies.push_back(sun);
-    initial_state.size();
+*/
 
     /*
     {
