@@ -4,9 +4,6 @@
 #include <iostream>
 #include <string>
 
-#define THETA 0.75
-#define MAX_PARTICLES_PER_LEAF 1
-
 BHNode::BHNode(const State& state, std::vector<double> lo, std::vector<double> hi)
     : state_(&state),
       is_leaf_(true),
@@ -331,9 +328,13 @@ void BHIndexedOrthoTree::calculateAcceleration(
 
 BarnesHutSolver::BarnesHutSolver(
     double softening,
-    double gravitational_constant
+    double gravitational_constant,
+    double theta,
+    size_t max_particles_per_leaf
 )
-    : Solver(softening, gravitational_constant) {}
+    : Solver(softening, gravitational_constant),
+      theta_(theta),
+      max_particles_per_leaf_(max_particles_per_leaf < 1 ? 1 : max_particles_per_leaf) {}
 
 void BarnesHutSolver::solve(
     const State& state,
@@ -348,7 +349,7 @@ void BarnesHutSolver::solve(
         acceleration.reset();
     }
 
-    BHIndexedOrthoTree tree(state, MAX_PARTICLES_PER_LEAF);
+    BHIndexedOrthoTree tree(state, max_particles_per_leaf_);
     tree.collect_bounds(last_bounds_);
 #ifdef _OPENMP
 #pragma omp parallel for schedule(static)
@@ -356,7 +357,7 @@ void BarnesHutSolver::solve(
     for (int i = 0; i < static_cast<int>(state.size()); i++) {
         tree.calculateAcceleration(
             static_cast<size_t>(i),
-            THETA,
+            theta_,
             softening_,
             gravitational_constant_,
             acceleration

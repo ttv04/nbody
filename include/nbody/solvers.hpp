@@ -107,7 +107,9 @@ class BarnesHutSolver : public Solver {
 public:
     BarnesHutSolver(
         double softening,
-        double gravitational_constant = 6.67430e-11
+        double gravitational_constant = 6.67430e-11,
+        double theta = 0.75,
+        size_t max_particles_per_leaf = 12
     );
     
     void solve(
@@ -118,5 +120,7 @@ public:
     const std::vector<BHBound>& last_bounds() const;
 
 private:
+    double theta_;
+    size_t max_particles_per_leaf_;
     mutable std::vector<BHBound> last_bounds_;
 };

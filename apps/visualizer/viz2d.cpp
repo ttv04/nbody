@@ -15,7 +15,7 @@ void update_camera(Camera2D& cam) {
 
     const Vector2 before = GetScreenToWorld2D(GetMousePosition(), cam);
     cam.zoom *= (wheel > 0.0f) ? 1.1f : (1.0f / 1.1f);
-    cam.zoom = Clamp(cam.zoom, 0.05f, 20.0f);
+    cam.zoom = Clamp(cam.zoom, 0.05f, 1000.0f);
     const Vector2 after = GetScreenToWorld2D(GetMousePosition(), cam);
     cam.target.x += before.x - after.x;
     cam.target.y += before.y - after.y;
@@ -23,7 +23,7 @@ void update_camera(Camera2D& cam) {
 
 void draw_particles(const Camera2D& cam, const State& state) {
     for (const Body& body : state.bodies) {
-        if (body.r.size() < 2) {
+        if (body.r.size() != 2) {
             continue;
         }
 

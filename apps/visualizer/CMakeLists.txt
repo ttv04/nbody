@@ -10,6 +10,18 @@ target_link_libraries(viz2d
         raylib
 )
 
+add_library(viz3d)
+target_sources(viz3d
+    PRIVATE 
+        viz3d.cpp 
+        viz3d.hpp 
+)
+target_link_libraries(viz3d
+    PUBLIC 
+        nbody 
+        raylib
+)
+
 add_executable(visualizer)
 target_sources(visualizer
     PRIVATE
@@ -18,4 +30,5 @@ target_sources(visualizer
 target_link_libraries(visualizer
     PRIVATE
         viz2d
+        viz3d
 )
