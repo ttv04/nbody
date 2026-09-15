@@ -1,11 +1,21 @@
+add_library(viz2d)
+target_sources(viz2d
+    PRIVATE
+        viz2d.cpp
+        viz2d.hpp
+)
+target_link_libraries(viz2d
+    PUBLIC
+        nbody
+        raylib
+)
+
 add_executable(visualizer)
 target_sources(visualizer
     PRIVATE
         main.cpp
 )
-
 target_link_libraries(visualizer
     PRIVATE
-        nbody
-        raylib
+        viz2d
 )

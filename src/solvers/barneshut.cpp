@@ -5,7 +5,7 @@
 #include <string>
 
 #define THETA 0.75
-#define MAX_PARTICLES_PER_LEAF 12
+#define MAX_PARTICLES_PER_LEAF 1
 
 BHNode::BHNode(const State& state, std::vector<double> lo, std::vector<double> hi)
     : state_(&state),
@@ -144,6 +144,29 @@ void BHIndexedOrthoTree::insertHelper(size_t index, BHNode* node) {
 
 void BHIndexedOrthoTree::insert(size_t index) {
     insertHelper(index, root_);
+}
+
+void BHIndexedOrthoTree::collect_bounds(std::vector<BHBound>& out) const {
+    out.clear();
+    collectBoundsHelper(root_, out);
+}
+
+void BHIndexedOrthoTree::collectBoundsHelper(
+    const BHNode* node,
+    std::vector<BHBound>& out
+) const {
+    if (node == nullptr) {
+        return;
+    }
+
+    out.push_back(BHBound{node->lo_, node->hi_});
+    if (node->is_leaf_) {
+        return;
+    }
+
+    for (const BHNode* child : node->children_) {
+        collectBoundsHelper(child, out);
+    }
 }
 
 void BHIndexedOrthoTree::print() const {
@@ -326,6 +349,7 @@ void BarnesHutSolver::solve(
     }
 
     BHIndexedOrthoTree tree(state, MAX_PARTICLES_PER_LEAF);
+    tree.collect_bounds(last_bounds_);
 #ifdef _OPENMP
 #pragma omp parallel for schedule(static)
 #endif
@@ -338,4 +362,8 @@ void BarnesHutSolver::solve(
             acceleration
         );
     }
+}
+
+const std::vector<BHBound>& BarnesHutSolver::last_bounds() const {
+    return last_bounds_;
 }

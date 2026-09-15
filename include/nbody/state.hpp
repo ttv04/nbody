@@ -3,14 +3,44 @@
 #include <initializer_list>
 #include <vector>
 
+class Config {
+public:
+    unsigned char r = 230;
+    unsigned char g = 41;
+    unsigned char b = 55;
+    unsigned char a = 255;
+    float radius = 5.0f;
+
+    Config() = default;
+    Config(
+        unsigned char r,
+        unsigned char g,
+        unsigned char b,
+        unsigned char a,
+        float radius
+    );
+};
+
+inline Config default_body_config{230, 41, 55, 255, 5.0f};
+
 class Body {
 public:
     std::vector<double> r;
     std::vector<double> v;
     double m;
+    Config config;
 
-    Body(std::initializer_list<double> r, std::initializer_list<double> v, double m);
-    Body(std::size_t dimensions, double mass);
+    Body(
+        std::initializer_list<double> r,
+        std::initializer_list<double> v,
+        double m,
+        Config config = default_body_config
+    );
+    Body(
+        std::size_t dimensions,
+        double mass,
+        Config config = default_body_config
+    );
 
     std::size_t dimensions() const;
 };

@@ -2,15 +2,25 @@
 
 #include <algorithm>
 
+Config::Config(
+    unsigned char r,
+    unsigned char g,
+    unsigned char b,
+    unsigned char a,
+    float radius
+)
+    : r(r), g(g), b(b), a(a), radius(radius) {}
+
 Body::Body(
     std::initializer_list<double> position,
     std::initializer_list<double> velocity,
-    double mass
+    double mass,
+    Config config
 )
-    : r(position), v(velocity), m(mass) {}
+    : r(position), v(velocity), m(mass), config(config) {}
 
-Body::Body(std::size_t dimensions, double mass)
-    : r(dimensions, 0.0), v(dimensions, 0.0), m(mass) {}
+Body::Body(std::size_t dimensions, double mass, Config config)
+    : r(dimensions, 0.0), v(dimensions, 0.0), m(mass), config(config) {}
 
 std::size_t Body::dimensions() const {
     return r.size();

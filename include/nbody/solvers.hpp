@@ -2,6 +2,7 @@
 
 #include "state.hpp"
 #include <memory>
+#include <vector>
 
 void accumulate_acceleration(
     AccelerationField& acceleration,
@@ -69,6 +70,11 @@ private:
     std::vector<BHNode*> children_;
 };
 
+struct BHBound {
+    std::vector<double> lo;
+    std::vector<double> hi;
+};
+
 class BHIndexedOrthoTree {
 public:
     BHIndexedOrthoTree(const State& state, size_t max_particles_per_leaf);
@@ -84,9 +90,11 @@ public:
         double grav,
         AccelerationField& acceleration
     );
+    void collect_bounds(std::vector<BHBound>& out) const;
     void print() const;
 private:
     void insertHelper(size_t index, BHNode* node);
+    void collectBoundsHelper(const BHNode* node, std::vector<BHBound>& out) const;
     void printHelper(const BHNode* node, int depth) const;
     void calculateCenterOfMass(BHNode* node);
 
@@ -106,4 +114,9 @@ public:
         const State& state,
         AccelerationField& acceleration
     ) const;
+
+    const std::vector<BHBound>& last_bounds() const;
+
+private:
+    mutable std::vector<BHBound> last_bounds_;
 };
