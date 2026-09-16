@@ -5,6 +5,7 @@ target_sources(integrators
         euler.cpp
         eulercromer.cpp
         leapfrog.cpp
+        rk4.cpp
 )
 
 target_link_libraries(integrators

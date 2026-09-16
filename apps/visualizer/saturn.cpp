@@ -11,7 +11,7 @@
 
 #define G 1.0
 #define THETA 0.75
-#define MPPL 12
+#define MPPL 1
 #define SOFT 2.0
 #define DT 0.08
 
@@ -19,9 +19,10 @@ int main() {
     const std::size_t particle_n = 2500;
     const double saturn_mass = 120000.0;
     const double particle_mass = 0.4;
-    const double cluster_x = 120.0;
+    const float saturn_radius = 48.0f;
+    const double cluster_x = 85.0;
     const double cluster_y = 0.0;
-    const double cluster_radius = 22.0;
+    const double cluster_radius = 14.0;
 
     State state(particle_n + 1, 2, particle_mass);
 
@@ -29,7 +30,7 @@ int main() {
         {0.0, 0.0},
         {0.0, 0.0},
         saturn_mass,
-        Config{255, 196, 92, 255, 26}
+        Config{255, 196, 92, 255, saturn_radius}
     );
 
     std::mt19937 rng(42);
@@ -61,7 +62,7 @@ int main() {
         body.m = particle_mass;
 
         const unsigned char shade = static_cast<unsigned char>(190 + 50 * tint(rng));
-        body.config = Config{shade, shade, 255, 255, 2.4f};
+        body.config = Config{shade, shade, 255, 255, 0.35f};
         ++filled;
     }
 
@@ -79,7 +80,7 @@ int main() {
     };
     cam.target = {0.0f, 0.0f};
     cam.rotation = 0.0f;
-    cam.zoom = 0.85f;
+    cam.zoom = 1.2f;
 
     bool paused = false;
     bool show_bounds = false;

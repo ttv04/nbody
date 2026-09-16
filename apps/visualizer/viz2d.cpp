@@ -27,9 +27,10 @@ void draw_particles(const Camera2D& cam, const State& state) {
             continue;
         }
 
+        const float min_world_radius = 0.8f / cam.zoom;
         DrawCircleV(
             Vector2{(float)body.r[0], (float)body.r[1]},
-            body.config.radius / cam.zoom,
+            fmaxf(body.config.radius, min_world_radius),
             Color{body.config.r, body.config.g, body.config.b, body.config.a}
         );
     }

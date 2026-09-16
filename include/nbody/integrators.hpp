@@ -45,3 +45,13 @@ public:
         double dt
     ) const;
 };
+
+class RK4Integrator: public Integrator {
+public:
+    void step(
+        State& state,
+        const Solver& solver,
+        AccelerationField& acceleration,
+        double dt
+    ) const;
+};
