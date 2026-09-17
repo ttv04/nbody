@@ -1,4 +1,5 @@
 #include "nbody/solvers.hpp"
+#include <omp.h>
 
 Solver::Solver(double softening, double gravitational_constant)
     : softening_(softening),
@@ -22,7 +23,9 @@ void NaiveSolver::solve(
 
     for (std::size_t i = 0; i < state.size(); ++i) {
         const Body& body_a = state.bodies[i];
-
+#ifdef _OPENMP
+#pragma omp parallel for schedule(static)
+#endif
         for (std::size_t j = i + 1; j < state.size(); ++j) {
             const Body& body_b = state.bodies[j];
 

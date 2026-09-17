@@ -33,6 +33,10 @@ State::State(std::initializer_list<Body> initial_bodies)
 State::State(std::size_t body_count, std::size_t dimensions, double mass)
     : dim(dimensions), bodies(body_count, Body(dimensions, mass)) {}
 
+State::State(const State& other)
+    : dim(other.dim),
+      bodies(other.bodies) {}
+
 std::size_t State::size() const {
     return bodies.size();
 }
