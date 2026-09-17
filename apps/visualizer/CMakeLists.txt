@@ -56,3 +56,15 @@ target_link_libraries(saturn
         raylib
         viz2d
 )
+
+add_executable(ring)
+target_sources(ring
+    PRIVATE
+        ring.cpp
+)
+target_link_libraries(ring
+    PUBLIC
+        nbody
+        raylib
+        viz2d
+)
