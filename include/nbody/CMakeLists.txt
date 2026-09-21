@@ -10,4 +10,5 @@ target_sources(include
             solvers.hpp
             state.hpp
             generators.hpp
+            data.hpp
 )

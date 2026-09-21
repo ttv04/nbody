@@ -35,6 +35,17 @@ if (NOT pybind11_FOUND)
     FetchContent_MakeAvailable(pybind11)
 endif()
 
+find_package(nlohmann_json QUIET)
+if (NOT nlohmann_json_FOUND)
+    include(FetchContent)
+    FetchContent_Declare(
+        nlohmann_json
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG v3.12.0
+    )
+    FetchContent_MakeAvailable(nlohmann_json)
+endif()
+
 add_subdirectory(include/nbody)
 add_subdirectory(src)
 add_subdirectory(apps)

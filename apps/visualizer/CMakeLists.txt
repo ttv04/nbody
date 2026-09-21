@@ -9,6 +9,10 @@ target_link_libraries(viz2d
         nbody
         raylib
 )
+target_include_directories(viz2d
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 add_library(viz3d)
 target_sources(viz3d
@@ -57,6 +61,27 @@ target_link_libraries(saturn
         viz2d
 )
 
+add_library(ring_experiment)
+target_sources(ring_experiment
+    PRIVATE
+        ring_experiment.cpp
+        ring_experiment.hpp
+)
+target_link_libraries(ring_experiment
+    PUBLIC
+        nbody
+        raylib
+        viz2d
+)
+target_include_directories(ring_experiment
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
+target_compile_definitions(ring_experiment
+    PUBLIC
+        RESULTS_DIR="${CMAKE_SOURCE_DIR}/analysis/results"
+)
+
 add_executable(ring)
 target_sources(ring
     PRIVATE
@@ -64,7 +89,15 @@ target_sources(ring
 )
 target_link_libraries(ring
     PUBLIC
-        nbody
-        raylib
-        viz2d
+        ring_experiment
+)
+
+add_executable(ring_naive)
+target_sources(ring_naive
+    PRIVATE
+        ring_naive.cpp
+)
+target_link_libraries(ring_naive
+    PUBLIC
+        ring_experiment
 )

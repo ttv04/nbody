@@ -12,6 +12,7 @@ add_subdirectory(integrators)
 add_subdirectory(solvers)
 add_subdirectory(generators)
 add_subdirectory(core)
+add_subdirectory(data)
 
 target_link_libraries(nbody
     PUBLIC 
@@ -22,5 +23,6 @@ target_link_libraries(nbody
         solvers
         generators
         core
+        data
 )
 

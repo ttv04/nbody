@@ -4,6 +4,7 @@ cmake-build-*/
 out/
 CMakeUserPresets.json
 CMakePresets.json
+build-web/
 
 # Compiler / editor
 .cache/
