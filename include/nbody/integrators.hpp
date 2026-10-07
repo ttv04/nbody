@@ -55,3 +55,18 @@ public:
         double dt
     ) const;
 };
+
+class VelocityVerletIntegrator: public Integrator {
+public:
+
+    VelocityVerletIntegrator();
+    void step(
+        State& state,
+        const Solver& solver,
+        AccelerationField& acceleration,
+        double dt
+    ) const;
+
+private:
+    mutable bool first;
+};

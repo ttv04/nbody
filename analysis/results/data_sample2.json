@@ -1,0 +1,52 @@
+{
+    "name": "ring",
+    "g": 1.0,
+    "softening": 0.5,
+    "dt": 1,
+    "t_start": 1999,
+    "t_end": 2000,
+    "seed": 42,
+
+    "integrator": "velocity verlet",
+    "solver": {
+        "name": "barneshut",
+        "theta": 0.5,
+        "max_leaf_per_node": 1 
+    },
+    "dim": 2,
+    "N": 2,
+    "states": [
+        {
+            "t": 1999,
+            "total_energy": -123.4,
+            "bodies": [
+                    {
+                        "r": [1.0, 2.0],
+                        "v": [2.0, 1.4],
+                        "a": [2.1, 1.2],
+                        "mass": 15.6,
+                        "config": {
+                            "r": 234,
+                            "g": 231,
+                            "b": 111,
+                            "a": 122,
+                            "radius": 10
+                        }
+                    },
+                    {
+                        "r": [1.0, 3.0],
+                        "v": [2.0, 2.4],
+                        "a": [2.1, 1.2],
+                        "mass": 3.4,
+                        "config": {
+                            "r": 234,
+                            "g": 231,
+                            "b": 111,
+                            "a": 122,
+                            "radius": 10
+                        }
+                    }
+            ]
+            }
+    ]
+}

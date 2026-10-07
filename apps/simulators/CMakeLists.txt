@@ -1,0 +1,35 @@
+add_library(sim_options)
+target_sources(sim_options
+    PRIVATE 
+        sim_options.hpp
+        sim_options.cpp 
+)
+target_link_libraries(sim_options
+    PRIVATE 
+        nbody
+        argparse
+)
+
+add_executable(threebodies)
+target_sources(threebodies 
+    PRIVATE 
+        threebodies.cpp
+)
+target_link_libraries(threebodies
+    PRIVATE 
+        nbody
+        argparse
+        sim_options
+)
+
+add_executable(twobodies)
+target_sources(twobodies
+    PRIVATE 
+        twobodies.cpp
+)
+target_link_libraries(twobodies
+    PRIVATE 
+        nbody
+        argparse
+        sim_options
+)

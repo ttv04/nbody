@@ -22,17 +22,15 @@ if (NOT raylib_FOUND)
     FetchContent_MakeAvailable(raylib)
 endif()
 
-set(PYBIND11_FINDPYTHON ON)
-
-find_package(pybind11 QUIET)
-if (NOT pybind11_FOUND)
+find_package(argparse)
+if (NOT argparse_FOUND) 
     include(FetchContent)
-    FetchContent_Declare(
-        pybind11
-        GIT_REPOSITORY https://github.com/pybind/pybind11.git
-        GIT_TAG v3.1.0
+    FetchCOntent_Declare(
+        argparse
+        GIT_REPOSITORY https://github.com/p-ranav/argparse
+        GIT_TAG v3.2
     )
-    FetchContent_MakeAvailable(pybind11)
+    FetchContent_MakeAvailable(argparse)
 endif()
 
 find_package(nlohmann_json QUIET)
