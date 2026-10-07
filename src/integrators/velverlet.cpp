@@ -9,11 +9,9 @@ void VelocityVerletIntegrator::step(
     AccelerationField& acceleration,
     double dt
 ) const {
-    if (!first) {
+    if (first) {
         solver.solve(state, acceleration);
-    }
-    else {
-        first = true;
+        first = false;
     }
 
     for (size_t i = 0; i < state.size(); i++) {
