@@ -19,6 +19,9 @@ t_end="${1:-100000}"
 fps="${2:-60}"
 
 integrators=(
+    euler
+    euler-cromer
+    leapfrog
     velocity-verlet
 )
 
