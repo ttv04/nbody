@@ -54,6 +54,17 @@ public:
     State(std::size_t body_count, std::size_t dimensions, double mass = 1.0);
     State(const State& other);
 
+    double total_kinetic_energy() const;
+    // Softening must match the value the solver softens the force with.
+    double total_potential_energy(
+        double gravitational_constant,
+        double softening = 0.0
+    ) const;
+    double total_energy(
+        double gravitational_constant,
+        double softening = 0.0
+    ) const;
+
     std::size_t size() const;
 };
 

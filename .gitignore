@@ -4,6 +4,8 @@ cmake-build-*/
 out/
 CMakeUserPresets.json
 CMakePresets.json
+build-web/
+analysis/.ipynb_checkpoints/
 
 # Compiler / editor
 .cache/

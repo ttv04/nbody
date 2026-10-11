@@ -88,3 +88,31 @@ private:
     double G_;
     double inner_radius_;
 };
+
+// N light bodies on circular orbits around a heavy central point mass.
+// Body 0 is the central mass, the remaining N sit in an annulus.
+class PointMassRing2D: public Generator {
+public:
+    PointMassRing2D(
+        size_t N,
+        double central_mass,
+        double particle_mass,
+        double inner_radius,
+        double outer_radius,
+        double G,
+        double center_x = 0.0,
+        double center_y = 0.0
+    );
+    State getRandomState();
+    State getState(unsigned int seed);
+
+private:
+    size_t N_;
+    double central_mass_;
+    double particle_mass_;
+    double inner_radius_;
+    double outer_radius_;
+    double G_;
+    double center_x_;
+    double center_y_;
+};

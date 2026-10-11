@@ -9,6 +9,10 @@ target_link_libraries(viz2d
         nbody
         raylib
 )
+target_include_directories(viz2d
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 add_library(viz3d)
 target_sources(viz3d
@@ -31,28 +35,5 @@ target_link_libraries(visualizer
     PRIVATE
         viz2d
         viz3d
-)
-
-add_executable(twobodies)
-target_sources(twobodies
-    PRIVATE 
-        twobodies.cpp
-)
-target_link_libraries(twobodies
-    PUBLIC 
-        nbody 
-        raylib
-        viz2d
-)
-
-add_executable(saturn)
-target_sources(saturn
-    PRIVATE
-        saturn.cpp
-)
-target_link_libraries(saturn
-    PUBLIC
-        nbody
-        raylib
-        viz2d
+        argparse
 )

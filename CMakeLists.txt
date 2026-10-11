@@ -22,6 +22,28 @@ if (NOT raylib_FOUND)
     FetchContent_MakeAvailable(raylib)
 endif()
 
+find_package(argparse)
+if (NOT argparse_FOUND) 
+    include(FetchContent)
+    FetchCOntent_Declare(
+        argparse
+        GIT_REPOSITORY https://github.com/p-ranav/argparse
+        GIT_TAG v3.2
+    )
+    FetchContent_MakeAvailable(argparse)
+endif()
+
+find_package(nlohmann_json QUIET)
+if (NOT nlohmann_json_FOUND)
+    include(FetchContent)
+    FetchContent_Declare(
+        nlohmann_json
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG v3.12.0
+    )
+    FetchContent_MakeAvailable(nlohmann_json)
+endif()
+
 add_subdirectory(include/nbody)
 add_subdirectory(src)
 add_subdirectory(apps)
