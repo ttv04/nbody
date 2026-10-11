@@ -21,12 +21,15 @@ void NaiveSolver::solve(
         acceleration.reset();
     }
 
-    for (std::size_t i = 0; i < state.size(); ++i) {
-        const Body& body_a = state.bodies[i];
 #ifdef _OPENMP
 #pragma omp parallel for schedule(static)
 #endif
-        for (std::size_t j = i + 1; j < state.size(); ++j) {
+    for (std::size_t i = 0; i < state.size(); ++i) {
+        const Body& body_a = state.bodies[i];
+        for (std::size_t j = 0; j < state.size(); ++j) {
+            if (i == j) {
+                continue;
+            }
             const Body& body_b = state.bodies[j];
 
             accumulate_acceleration(
@@ -35,16 +38,6 @@ void NaiveSolver::solve(
                 body_a.r,
                 body_b.r,
                 body_b.m,
-                state.dim,
-                softening_,
-                gravitational_constant_
-            );
-            accumulate_acceleration(
-                acceleration,
-                j,
-                body_b.r,
-                body_a.r,
-                body_a.m,
                 state.dim,
                 softening_,
                 gravitational_constant_

@@ -15,7 +15,7 @@ threebodies="$root/build/apps/simulators/threebodies"
 visualizer="$root/build/apps/visualizer/visualizer"
 outdir="$root/analysis/results"
 
-t_end="${1:-2000}"
+t_end="${1:-100000}"
 fps="${2:-60}"
 
 integrators=(
@@ -41,6 +41,7 @@ for integrator in "${integrators[@]}"; do
     json_files+=("$output")
 done
 
+'''
 pids=()
 for output in "${json_files[@]}"; do
     echo "visualizing $output"
@@ -48,4 +49,4 @@ for output in "${json_files[@]}"; do
     pids+=("$!")
 done
 
-wait "${pids[@]}"
+wait "${pids[@]}"'''
