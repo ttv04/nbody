@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <utility>
 
 Config::Config(
     unsigned char r,
@@ -30,6 +31,10 @@ std::size_t Body::dimensions() const {
 State::State(std::initializer_list<Body> initial_bodies)
     : dim(initial_bodies.size() == 0 ? 0 : initial_bodies.begin()->dimensions()),
       bodies(initial_bodies) {}
+
+State::State(std::vector<Body> initial_bodies)
+    : dim(initial_bodies.empty() ? 0 : initial_bodies.front().dimensions()),
+      bodies(std::move(initial_bodies)) {}
 
 State::State(std::size_t body_count, std::size_t dimensions, double mass)
     : dim(dimensions), bodies(body_count, Body(dimensions, mass)) {}

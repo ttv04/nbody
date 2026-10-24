@@ -8,6 +8,7 @@ if(OpenMP_CXX_FOUND)
 endif()
 
 add_subdirectory(state)
+add_subdirectory(system)
 add_subdirectory(integrators)
 add_subdirectory(solvers)
 add_subdirectory(generators)
@@ -19,6 +20,7 @@ target_link_libraries(nbody
         include
     PRIVATE 
         state
+        system
         integrators
         solvers
         generators

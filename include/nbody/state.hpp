@@ -51,6 +51,7 @@ public:
     std::vector<Body> bodies;
 
     State(std::initializer_list<Body> bodies);
+    State(std::vector<Body> bodies);
     State(std::size_t body_count, std::size_t dimensions, double mass = 1.0);
     State(const State& other);
 

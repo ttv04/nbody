@@ -77,7 +77,7 @@ int main(int argc, const char* argv[]) {
 
     // Now record
     Result result{
-        "Three Bodies",
+        "Two Bodies",
         o.integrator_name,
         o.solver_name,
         o.theta,

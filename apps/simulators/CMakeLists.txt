@@ -33,3 +33,27 @@ target_link_libraries(twobodies
         argparse
         sim_options
 )
+
+add_executable(solar)
+target_sources(solar
+    PRIVATE
+        solar.cpp
+)
+target_link_libraries(solar
+    PRIVATE
+        nbody
+        argparse
+        sim_options
+)
+
+add_executable(twogalaxies)
+target_sources(twogalaxies
+    PRIVATE
+        twogalaxies.cpp
+)
+target_link_libraries(twogalaxies
+    PRIVATE
+        nbody
+        argparse
+        sim_options
+)
