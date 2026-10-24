@@ -1,6 +1,8 @@
 #include "viz3d.hpp"
 #include "raymath.h"
 
+#include <algorithm>
+
 // Credit to Cursor Grok 4.6
 
 namespace {
@@ -16,7 +18,7 @@ float world_radius_from_pixels(const Camera3D& cam, const Vector3& position, flo
 
 }  // namespace
 
-void update_camera_3d(Camera3D& cam) {
+void update_camera_3d(Camera3D& cam, float min_distance, float max_distance) {
     Vector3 offset = Vector3Subtract(cam.position, cam.target);
 
     if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT)) {
@@ -64,7 +66,7 @@ void update_camera_3d(Camera3D& cam) {
 
     float dist = Vector3Length(Vector3Subtract(cam.position, cam.target));
     dist *= (wheel > 0.0f) ? 0.9f : (1.0f / 0.9f);
-    dist = Clamp(dist, 5.0f, 20000.0f);
+    dist = Clamp(dist, min_distance, max_distance);
     const Vector3 dir = Vector3Normalize(Vector3Subtract(cam.position, cam.target));
     cam.position = Vector3Add(cam.target, Vector3Scale(dir, dist));
 }
@@ -87,6 +89,66 @@ void draw_particles_3d(const Camera3D& cam, const State& state) {
             8,
             Color{body.config.r, body.config.g, body.config.b, body.config.a}
         );
+    }
+}
+
+void draw_velocity_arrows_3d(const State& state, double scale) {
+    const Color color{120, 210, 255, 220};
+    for (const Body& body : state.bodies) {
+        if (body.r.size() < 3 || body.v.size() < 3) {
+            continue;
+        }
+        const Vector3 position{
+            static_cast<float>(body.r[0]),
+            static_cast<float>(body.r[1]),
+            static_cast<float>(body.r[2])
+        };
+        const Vector3 tip{
+            static_cast<float>(body.r[0] + body.v[0] * scale),
+            static_cast<float>(body.r[1] + body.v[1] * scale),
+            static_cast<float>(body.r[2] + body.v[2] * scale)
+        };
+        DrawLine3D(position, tip, color);
+    }
+}
+
+void draw_trajectory_paths_3d(
+    const std::vector<std::vector<std::vector<double>>>& displacement,
+    const std::vector<Config>& styles,
+    std::size_t frame,
+    std::size_t max_segments
+) {
+    if (frame == 0 || displacement.empty() || styles.empty()) {
+        return;
+    }
+
+    const std::size_t first_segment =
+        frame > max_segments ? frame - max_segments + 1 : 1;
+    const std::size_t stride = std::max<std::size_t>(1, styles.size() / 800);
+
+    for (std::size_t body = 0; body < styles.size(); body += stride) {
+        const Config& style = styles[body];
+        const Color color{style.r, style.g, style.b, 130};
+        for (std::size_t segment = first_segment; segment <= frame; segment++) {
+            const auto& previous = displacement[segment - 1][body];
+            const auto& current = displacement[segment][body];
+            if (previous.size() < 3 || current.size() < 3) {
+                continue;
+            }
+            DrawLine3D(
+                Vector3{
+                    static_cast<float>(previous[0]),
+                    static_cast<float>(previous[1]),
+                    static_cast<float>(previous[2])
+                },
+                Vector3{
+                    static_cast<float>(current[0]),
+                    static_cast<float>(current[1]),
+                    static_cast<float>(current[2])
+                },
+                color
+            );
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 #include "viz2d.hpp"
 #include "raymath.h"
 
-void update_camera(Camera2D& cam) {
+void update_camera(Camera2D& cam, float min_zoom, float max_zoom) {
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) || IsMouseButtonDown(MOUSE_BUTTON_RIGHT)) {
         const Vector2 delta = GetMouseDelta();
         cam.target.x -= delta.x / cam.zoom;
@@ -15,7 +15,7 @@ void update_camera(Camera2D& cam) {
 
     const Vector2 before = GetScreenToWorld2D(GetMousePosition(), cam);
     cam.zoom *= (wheel > 0.0f) ? 1.1f : (1.0f / 1.1f);
-    cam.zoom = Clamp(cam.zoom, 0.05f, 1000.0f);
+    cam.zoom = Clamp(cam.zoom, min_zoom, max_zoom);
     const Vector2 after = GetScreenToWorld2D(GetMousePosition(), cam);
     cam.target.x += before.x - after.x;
     cam.target.y += before.y - after.y;

@@ -4,7 +4,7 @@
 #include "nbody/state.hpp"
 #include "raylib.h"
 
-void update_camera(Camera2D& cam);
+void update_camera(Camera2D& cam, float min_zoom, float max_zoom);
 void draw_particles(const Camera2D& cam, const State& state);
 void draw_trajectory_paths(
     const Camera2D& cam,
